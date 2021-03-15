@@ -2,7 +2,7 @@
 
 ## A peer to peer tool rental app which lets you rent out tools from other people or rent out your tools to others. 
 
-If you are working on a project and you need tools, sometimes it’s difficult deciding buying new and possible expensive ones which probably will only use once or twice, instead you can rent them out from the local community, saving some money.
+If you are working on a project and you need tools, sometimes it’s difficult buying new and possible expensive ones which probably will only use once or twice, instead you can rent them out from the local community, saving some money.
 If you have tools but don’t use them all the time you can rent them out to others, recovering part of their cost.
 
 ## Must have
