@@ -25,7 +25,4 @@ by pressing a button and be sent in a SMS application
 -	Paying capabilities through the app
 -	User authentication with NemID
 
-## Design in progress :)
 
-
-![alt text](https://github.com/FlaviusAB/RentToolsApp/blob/main/ToolsRent.PNG)
