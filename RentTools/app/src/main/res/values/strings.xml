@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RentTools</string>
+    <string name="email">Email</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="login_image">login image</string>
+    <string name="welcome">Welcome !</string>
+    <string name="please_sign_in_to_continue">Please, sign in to continue</string>
+    <string name="sign_up">Sign up</string>
+</resources>

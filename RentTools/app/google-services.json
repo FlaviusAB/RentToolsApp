@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "482323028110",
+    "project_id": "renttools-b4395",
+    "storage_bucket": "renttools-b4395.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482323028110:android:d6451e65493d7db5a451df",
+        "android_client_info": {
+          "package_name": "com.example.renttools"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "482323028110-ujlmos92j60hig2tifa7ukrcv6bqo2ed.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqrVOuEFxDJr0cIalSBKtCbLWmmP-OHGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "482323028110-ujlmos92j60hig2tifa7ukrcv6bqo2ed.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
