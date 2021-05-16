@@ -1,7 +1,5 @@
 package com.example.renttools.model;
 
-import androidx.lifecycle.LiveData;
-
 public class User {
 
     private String name, email;
