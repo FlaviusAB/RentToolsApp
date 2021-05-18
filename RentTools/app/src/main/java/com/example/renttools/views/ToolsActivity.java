@@ -1,6 +1,8 @@
 package com.example.renttools.views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,11 +10,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.renttools.R;
 import com.example.renttools.adapters.RecyclerViewAdapter;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,17 +27,21 @@ public class ToolsActivity extends AppCompatActivity {
     private static final String TAG = "ToolsActivity";
     private final ArrayList<String> mNames = new ArrayList<>();
     private final ArrayList<String> mImageUrls = new ArrayList<>();
+    MaterialToolbar toolbar;
     FirebaseDatabase database;
     DatabaseReference myRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         database = FirebaseDatabase.getInstance();
         super.onCreate(savedInstanceState);
+        toolbar = findViewById(R.id.topAppBar);
+
         setContentView(R.layout.activity_tools);
         initImageBitmaps();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
         return true;
     }
@@ -90,9 +98,22 @@ public class ToolsActivity extends AppCompatActivity {
 
     }
 
-    public void onClickLogOut(View view) {
-        FirebaseAuth.getInstance().signOut();
-        Toast.makeText(ToolsActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, LoginActivity.class));
+  
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(ToolsActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
+            default:
+                return  super.onOptionsItemSelected(item);
+
+        }
+        return true;
     }
+
+
 }

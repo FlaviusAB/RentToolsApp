@@ -6,6 +6,7 @@
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_baseline_search_24"
+        android:iconTint="@color/black"
         android:title="@string/search"
         android:contentDescription="@string/content_description_search"
         app:showAsAction="ifRoom" />
@@ -22,8 +23,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/logout"
-        android:contentDescription="@string/content_description_search"
-        android:onClick="onClickLogOut"
         android:title="@string/extended_fab_logout"
+        android:contentDescription="@string/extended_fab_logout"
         app:showAsAction="ifRoom" />
 </menu>
