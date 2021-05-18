@@ -10,12 +10,6 @@ import java.util.List;
 
 public class ToolsActivityViewModel {
 
-    private MutableLiveData<List<Tool>> mTools;
-
-    public LiveData<List<Tool>> getTools() {
-        return mTools;
-    }
-
 
 
 

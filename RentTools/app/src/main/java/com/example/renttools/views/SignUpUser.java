@@ -85,7 +85,9 @@ public class SignUpUser extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
                     User user = new User(name,email);
-                    FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app").getReference("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                    FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app")
+                            .getReference("Users")
+                            .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                             .setValue(user).addOnCompleteListener(task1 -> {
                                 if (task1.isSuccessful()) {
 

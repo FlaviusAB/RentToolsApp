@@ -11,17 +11,10 @@ public class User {
     private String email;
     private String name;
     private String phoneNumber;
-    private MutableLiveData<ArrayList<Tool>> tools;
+
 
     public User(){}
 
-    public MutableLiveData<ArrayList<Tool>> getTools() {
-        return tools;
-    }
-
-    public void setTools(MutableLiveData<ArrayList<Tool>> tools) {
-        this.tools = tools;
-    }
 
     public User(String email, String name) {
         this.email = email;

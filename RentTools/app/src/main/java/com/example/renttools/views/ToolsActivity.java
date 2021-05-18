@@ -20,6 +20,7 @@ import com.example.renttools.R;
 import com.example.renttools.adapters.RecyclerViewAdapter;
 import com.example.renttools.model.Tool;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,24 +36,26 @@ public class ToolsActivity extends AppCompatActivity {
     FirebaseDatabase database;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    Tool abc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+
+        database = FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app");
         mDatabase = database.getReference();
+
         super.onCreate(savedInstanceState);
         toolbar = findViewById(R.id.topAppBar);
-
-        abc = new Tool("Yamaha","zt100","lawnmower",100);
+        setSupportActionBar(toolbar);
 
         setContentView(R.layout.activity_tools);
         initImageBitmaps();
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
         return true;
     }
@@ -110,30 +113,31 @@ public class ToolsActivity extends AppCompatActivity {
     }
 
 
+    public void writeToolToUser(Tool tool) {
+        Toast.makeText(ToolsActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+
+        mDatabase.child("Tools").child(mAuth.getCurrentUser().getUid()).setValue(tool);
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()){
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(ToolsActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, LoginActivity.class));
-                break;
-            default:
-                return  super.onOptionsItemSelected(item);
-
+                return true;
         }
         return true;
     }
 
-    public void writeToolToUser(Tool tool) {
-        Toast.makeText(ToolsActivity.this, "aaarived", Toast.LENGTH_SHORT).show();
-        mDatabase.child("Tools").setValue("dasdasd");
-
-    }
-
-
     public void onClickAddTool(View view) {
-    writeToolToUser(abc);
+        Tool tool = new Tool();
+        tool.setManufacturer("yamaha");
+        tool.setModel("uu700");
+        tool.setPricePerDay(700);
+        writeToolToUser(tool);
     }
+
 }
