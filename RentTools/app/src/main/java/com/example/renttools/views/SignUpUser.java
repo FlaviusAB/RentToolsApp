@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.renttools.R;
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class SignUpUser extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
+    private ProgressBar progressBar;
     private EditText editTextName, editTextEmail, editTextPassword;
 
     @Override
@@ -30,6 +32,8 @@ public class SignUpUser extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextPersonName);
         editTextEmail = findViewById(R.id.editTextEmailAddress);
         editTextPassword = findViewById(R.id.editTextPassword);
+        progressBar = findViewById(R.id.progressBar);
+
     }
     @Override
     public void onBackPressed()
@@ -44,6 +48,7 @@ public class SignUpUser extends AppCompatActivity {
     }
 
     public void registerUser() {
+
         String email = editTextEmail.getText().toString().trim();
         String name = editTextName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
@@ -74,13 +79,16 @@ public class SignUpUser extends AppCompatActivity {
             editTextPassword.requestFocus();
             return;
         }
+    progressBar.setVisibility(View.VISIBLE);
     mAuth.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener(task -> {
+                progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful()){
                     User user = new User(name,email);
                     FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app").getReference("Users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                             .setValue(user).addOnCompleteListener(task1 -> {
                                 if (task1.isSuccessful()) {
+
                                     Toast.makeText(SignUpUser.this, "You have been registered successfully", Toast.LENGTH_SHORT).show();
 
                                     SignUpUser.this.startActivity(new Intent(SignUpUser.this, LoginActivity.class));
@@ -93,7 +101,6 @@ public class SignUpUser extends AppCompatActivity {
                     Toast.makeText(SignUpUser.this,"Failed to register! Tray again!", Toast.LENGTH_SHORT).show();
                 }
             });
-
     }
 
 }

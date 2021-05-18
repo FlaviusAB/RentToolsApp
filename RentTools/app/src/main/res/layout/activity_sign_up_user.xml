@@ -7,7 +7,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+        <!-- Linear progress indicator -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -15,6 +25,7 @@
             android:layout_height="185dp"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="100dp"
+            android:contentDescription="@string/logo"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:autofillHints="name"
             android:ems="10"
-            android:hint="Name"
+            android:hint="@string/name"
             android:inputType="textPersonName"
             app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:autofillHints="email"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
@@ -52,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="41dp"
+            android:autofillHints="password"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
@@ -66,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="100dp"
             android:onClick="onClickSignUp"
-            android:text="Sign Up"
+            android:text="@string/sign_up_string"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="56dp"
-            android:text="Register"
+            android:text="@string/register_string"
             app:layout_constraintBottom_toTopOf="@+id/editTextPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

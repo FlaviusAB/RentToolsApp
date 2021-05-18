@@ -18,5 +18,5 @@
         android:textColor="#000"
         android:layout_centerVertical="true"
         android:layout_marginLeft="30dp"
-        android:textSize="17dp"/>
+        android:textSize="17sp"/>
 </RelativeLayout>
