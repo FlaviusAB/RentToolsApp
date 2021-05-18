@@ -22,7 +22,7 @@
         app:titleTextColor="@color/black"
         tools:layout_editor_absoluteX="-82dp" />
     </com.google.android.material.appbar.AppBarLayout>
-    <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <androidx.recyclerview.widget.RecyclerView
@@ -31,6 +31,13 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-    </RelativeLayout>
 
+    <Button
+        android:id="@+id/buttonAddTool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:text="@string/add_tool"
+        android:onClick="onClickAddTool"
+        android:textColor="@color/black" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,6 +3,8 @@ package com.example.renttools.views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.renttools.R;
 import com.example.renttools.adapters.RecyclerViewAdapter;
+import com.example.renttools.model.Tool;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -27,14 +30,22 @@ public class ToolsActivity extends AppCompatActivity {
     private static final String TAG = "ToolsActivity";
     private final ArrayList<String> mNames = new ArrayList<>();
     private final ArrayList<String> mImageUrls = new ArrayList<>();
+
     MaterialToolbar toolbar;
     FirebaseDatabase database;
-    DatabaseReference myRef;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    Tool abc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        mDatabase = database.getReference();
         super.onCreate(savedInstanceState);
         toolbar = findViewById(R.id.topAppBar);
+
+        abc = new Tool("Yamaha","zt100","lawnmower",100);
 
         setContentView(R.layout.activity_tools);
         initImageBitmaps();
@@ -98,7 +109,7 @@ public class ToolsActivity extends AppCompatActivity {
 
     }
 
-  
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -115,5 +126,14 @@ public class ToolsActivity extends AppCompatActivity {
         return true;
     }
 
+    public void writeToolToUser(Tool tool) {
+        Toast.makeText(ToolsActivity.this, "aaarived", Toast.LENGTH_SHORT).show();
+        mDatabase.child("Tools").setValue("dasdasd");
 
+    }
+
+
+    public void onClickAddTool(View view) {
+    writeToolToUser(abc);
+    }
 }

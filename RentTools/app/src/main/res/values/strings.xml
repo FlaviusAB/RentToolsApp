@@ -23,4 +23,5 @@
     <string name="page_title_tools">Tools available for rent</string>
     <string name="extended_fab_logout">Log out</string>
     <string name="myTools">my tools</string>
+    <string name="add_tool">Add tool</string>
 </resources>
