@@ -1,10 +1,10 @@
 package com.example.renttools.views;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,40 +16,43 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+
 import com.example.renttools.R;
 import com.example.renttools.adapters.RecyclerViewAdapter;
 import com.example.renttools.model.Tool;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.navigation.NavigationView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class ToolsActivity extends AppCompatActivity {
+public class ToolsActivity extends AppCompatActivity  {
     private static final String TAG = "ToolsActivity";
     private final ArrayList<String> mNames = new ArrayList<>();
     private final ArrayList<String> mImageUrls = new ArrayList<>();
 
-    MaterialToolbar toolbar;
-    FirebaseDatabase database;
+    private Toolbar toolbar;
+    private FirebaseDatabase database;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tools);
+
         mAuth = FirebaseAuth.getInstance();
 
         database = FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app");
         mDatabase = database.getReference();
 
-        super.onCreate(savedInstanceState);
-        toolbar = findViewById(R.id.topAppBar);
+
+        toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        setContentView(R.layout.activity_tools);
         initImageBitmaps();
 
 
@@ -58,6 +61,31 @@ public class ToolsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(ToolsActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+        }
+        return true;
+    }
+    public void writeToolToDatabase(Tool tool) {
+        Toast.makeText(ToolsActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+
+        mDatabase.child("Tools").child(mAuth.getCurrentUser().getUid()).setValue(tool);
+
+    }
+    public void onClickAddTool(View view) {
+        Tool tool = new Tool();
+        tool.setManufacturer("yamaha");
+        tool.setModel("uu700");
+        tool.setPricePerDay(700);
+        writeToolToDatabase(tool);
     }
     private void initImageBitmaps(){
 
@@ -113,31 +141,5 @@ public class ToolsActivity extends AppCompatActivity {
     }
 
 
-    public void writeToolToUser(Tool tool) {
-        Toast.makeText(ToolsActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-
-        mDatabase.child("Tools").child(mAuth.getCurrentUser().getUid()).setValue(tool);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(ToolsActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, LoginActivity.class));
-                return true;
-        }
-        return true;
-    }
-
-    public void onClickAddTool(View view) {
-        Tool tool = new Tool();
-        tool.setManufacturer("yamaha");
-        tool.setModel("uu700");
-        tool.setPricePerDay(700);
-        writeToolToUser(tool);
-    }
 
 }

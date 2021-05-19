@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextEmailAddress = findViewById(R.id.editTextEmailAddress);
         editTextPassword = findViewById(R.id.editTextPassword);
         progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
 
     }
@@ -80,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
@@ -96,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
 
                         }
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
     }

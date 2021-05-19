@@ -6,31 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".views.ToolsActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/top_app_bar"
-        app:navigationIcon="@drawable/ic_baseline_menu_24"
-        app:navigationIconTint="@color/black"
-        app:title="@string/page_title_tools"
-        app:titleTextColor="@color/black"
-        tools:layout_editor_absoluteX="-82dp" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewTools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:liftOnScroll="true"
+        >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/top_app_bar"
+            app:title="@string/page_title_tools" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
 
     <Button
         android:id="@+id/buttonAddTool"
@@ -39,5 +37,6 @@
         android:layout_gravity="bottom|end"
         android:text="@string/add_tool"
         android:onClick="onClickAddTool"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
