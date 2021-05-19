@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.UUID;
+
 public class AddToolActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FirebaseDatabase database;
@@ -53,7 +55,8 @@ public class AddToolActivity extends AppCompatActivity {
     }
     public void writeToolToDatabase(Tool tool) {
         Toast.makeText(AddToolActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-        mDatabase.child("Tools").child(mAuth.getCurrentUser().getUid()).setValue(tool);
+        String uuid = UUID.randomUUID().toString();
+        mDatabase.child("Tools").child(uuid).setValue(tool);
 
     }
     public void onClickAddTool(View view) {
@@ -86,7 +89,8 @@ public class AddToolActivity extends AppCompatActivity {
             return;
         }
         Tool tool = new Tool(manuf,model,descr,price);
-
+        tool.setUserId(mAuth.getCurrentUser().getUid());
         writeToolToDatabase(tool);
+        startActivity(new Intent(AddToolActivity.this, ToolsActivity.class));
     }
 }

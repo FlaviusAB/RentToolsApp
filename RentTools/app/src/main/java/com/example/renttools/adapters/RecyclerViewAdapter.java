@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.renttools.R;
+import com.example.renttools.model.Tool;
 
 
 import org.w3c.dom.Text;
@@ -22,47 +23,41 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
 
-    private final ArrayList<String> mManufacturer;
-    private final ArrayList<String> mModel;
-    private final ArrayList<String> mPrice;
+    private ArrayList<Tool> mToolList;
 
-    private final ArrayList<String> mImages;
     private final Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> mManufacturer,ArrayList<String> mModel,ArrayList<String> mPrice, ArrayList<String> mImages, Context mContext) {
-        this.mManufacturer = mManufacturer;
-        this.mModel = mModel;
-        this.mPrice = mPrice;
-        this.mImages = mImages;
+    public RecyclerViewAdapter(ArrayList<Tool> mToolList, Context mContext) {
+        this.mToolList = mToolList;
         this.mContext = mContext;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG,"onBindViewHolder: called.");
+        Log.d(TAG, "onBindViewHolder: called.");
 
-        Glide.with(mContext).asBitmap().load(mImages.get(position)).into(holder.image);
+        Glide.with(mContext).asBitmap().load("https://i.redd.it/jz58dpd593z61.jpg").into(holder.image);
 
-        holder.manufacturerText.setText(mManufacturer.get(position));
-        holder.modelText.setText(mModel.get(position));
-        holder.priceText.setText(mPrice.get(position));
+        holder.manufacturerText.setText(mToolList.get(position).getManufacturer());
+        holder.modelText.setText(mToolList.get(position).getModel());
+        holder.priceText.setText(mToolList.get(position).getPricePerDay()+"");
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"onClick: clicked on"+ mManufacturer.get(position));
-                Toast.makeText(mContext, mManufacturer.get(position),Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onClick: clicked on" + mToolList.get(position));
+                Toast.makeText(mContext, mToolList.get(position).getManufacturer(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -70,15 +65,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mManufacturer.size();
+        return mToolList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView image;
         TextView manufacturerText;
         TextView modelText;
         TextView priceText;
         RelativeLayout parentLayout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageTool);

@@ -29,5 +29,5 @@
     <string name="model_label_string">Model</string>
     <string name="description_label_string">Description</string>
     <string name="price_label_string">Price/day</string>
-    <string name="post_tool_for_rent">Post tool for rent</string>
+    <string name="post_tool_for_rent">Save</string>
 </resources>

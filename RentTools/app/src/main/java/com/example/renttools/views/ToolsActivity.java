@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class ToolsActivity extends AppCompatActivity  {
     private  ArrayList<String> mManufacturerList = new ArrayList<>();
     private  ArrayList<String> mModelList = new ArrayList<>();
     private  ArrayList<String> mPriceList = new ArrayList<>();
+
+    private  ArrayList<Tool> mToolList = new ArrayList<>();
 
     private final ArrayList<String> mImageUrls = new ArrayList<>();
     private Toolbar toolbar;
@@ -72,14 +75,15 @@ public class ToolsActivity extends AppCompatActivity  {
 
     public void getAllToolsFromFirebase()
     {
-        //Get datasnapshot at your "users" root node
+
         DatabaseReference ref = database.getReference().child("Tools");
-        ref.addListenerForSingleValueEvent(
+        ref.addValueEventListener(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        //Get map of tools in datasnapshot
-                        collectTools((Map<String,Object>) dataSnapshot.getValue());
+
+                        GenericTypeIndicator<Map<String, Tool>> t = new GenericTypeIndicator<Map<String, Tool>>() {};
+                        collectTools(dataSnapshot.getValue(t));
                     }
 
                     @Override
@@ -89,18 +93,13 @@ public class ToolsActivity extends AppCompatActivity  {
                 });
     }
 
-    private void collectTools(Map<String, Object> tools) {
-
-        for (Map.Entry<String, Object> entry : tools.entrySet()){
-
-            Map singleTool = (Map) entry.getValue();
-
-            mManufacturerList.add((String) singleTool.get("manufacturer"));
-            mModelList.add((String) singleTool.get("model"));
-            String p = String.valueOf((Long) singleTool.get("pricePerDay"));
-            mPriceList.add(p);
+    private void collectTools(Map<String, Tool> tools) {
+        mToolList.clear();
+        for (Map.Entry<String, Tool> entry : tools.entrySet()){
+            mToolList.add(entry.getValue());
         }
         System.out.println(mManufacturerList.toString());
+        initRecyclerView();
     }
 
     @Override
@@ -158,7 +157,7 @@ public class ToolsActivity extends AppCompatActivity  {
     {
         Log.d(TAG,"initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recycleViewTools);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mManufacturerList,mModelList,mPriceList,mImageUrls,this);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mToolList,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

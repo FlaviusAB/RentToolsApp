@@ -10,17 +10,17 @@ public class Tool {
     private String model;
     private String description;
     private double pricePerDay;
-    private String uId;
+    private String userId;
 
     public Tool() {
     }
 
-    public Tool(String manufacturer, String model, String description, double pricePerDay, String uId) {
+    public Tool(String manufacturer, String model, String description, double pricePerDay, String userId) {
         this.manufacturer = manufacturer;
         this.model = model;
         this.description = description;
         this.pricePerDay = pricePerDay;
-        this.uId = uId;
+        this.userId = userId;
     }
 
     public Tool(String manufacturer, String model, String description, double pricePerDay) {
@@ -30,12 +30,12 @@ public class Tool {
         this.pricePerDay = pricePerDay;
     }
 
-    public String getuId() {
-        return uId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setuId(String uId) {
-        this.uId = uId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getManufacturer() {
