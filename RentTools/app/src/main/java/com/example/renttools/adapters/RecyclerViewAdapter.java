@@ -24,12 +24,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
     private static final String TAG = "RecyclerViewAdapter";
-    private final ArrayList<String> mImageNames;
+
+    private final ArrayList<String> mManufacturer;
+    private final ArrayList<String> mModel;
+    private final ArrayList<String> mPrice;
+
     private final ArrayList<String> mImages;
     private final Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> mImageNames, ArrayList<String> mImages, Context mContext) {
-        this.mImageNames = mImageNames;
+    public RecyclerViewAdapter(ArrayList<String> mManufacturer,ArrayList<String> mModel,ArrayList<String> mPrice, ArrayList<String> mImages, Context mContext) {
+        this.mManufacturer = mManufacturer;
+        this.mModel = mModel;
+        this.mPrice = mPrice;
         this.mImages = mImages;
         this.mContext = mContext;
     }
@@ -38,8 +44,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_item,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override
@@ -48,13 +54,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Glide.with(mContext).asBitmap().load(mImages.get(position)).into(holder.image);
 
-        holder.imageName.setText(mImageNames.get(position));
+        holder.manufacturerText.setText(mManufacturer.get(position));
+        holder.modelText.setText(mModel.get(position));
+        holder.priceText.setText(mPrice.get(position));
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"onClick: clicked on"+ mImageNames.get(position));
-                Toast.makeText(mContext, mImageNames.get(position),Toast.LENGTH_SHORT).show();
+                Log.d(TAG,"onClick: clicked on"+ mManufacturer.get(position));
+                Toast.makeText(mContext, mManufacturer.get(position),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -62,17 +70,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mImageNames.size();
+        return mManufacturer.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         CircleImageView image;
-        TextView imageName;
+        TextView manufacturerText;
+        TextView modelText;
+        TextView priceText;
         RelativeLayout parentLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageTool);
-            imageName = itemView.findViewById(R.id.imageToolName);
+            manufacturerText = itemView.findViewById(R.id.toolManufacturer);
+            modelText = itemView.findViewById(R.id.toolModel);
+            priceText = itemView.findViewById(R.id.toolPrice);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
     }

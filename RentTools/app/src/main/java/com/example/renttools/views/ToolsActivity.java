@@ -20,17 +20,25 @@ import android.widget.Toast;
 import com.example.renttools.R;
 import com.example.renttools.adapters.RecyclerViewAdapter;
 
+import com.example.renttools.model.Tool;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ToolsActivity extends AppCompatActivity  {
     private static final String TAG = "ToolsActivity";
-    private final ArrayList<String> mTools = new ArrayList<>();
-    private final ArrayList<String> mImageUrls = new ArrayList<>();
 
+    private  ArrayList<String> mManufacturerList = new ArrayList<>();
+    private  ArrayList<String> mModelList = new ArrayList<>();
+    private  ArrayList<String> mPriceList = new ArrayList<>();
+
+    private final ArrayList<String> mImageUrls = new ArrayList<>();
     private Toolbar toolbar;
     private FirebaseDatabase database;
     private FirebaseAuth mAuth;
@@ -55,10 +63,44 @@ public class ToolsActivity extends AppCompatActivity  {
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
         return true;
+    }
+
+    public void getAllToolsFromFirebase()
+    {
+        //Get datasnapshot at your "users" root node
+        DatabaseReference ref = database.getReference().child("Tools");
+        ref.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Get map of tools in datasnapshot
+                        collectTools((Map<String,Object>) dataSnapshot.getValue());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
+    }
+
+    private void collectTools(Map<String, Object> tools) {
+
+        for (Map.Entry<String, Object> entry : tools.entrySet()){
+
+            Map singleTool = (Map) entry.getValue();
+
+            mManufacturerList.add((String) singleTool.get("manufacturer"));
+            mModelList.add((String) singleTool.get("model"));
+            String p = String.valueOf((Long) singleTool.get("pricePerDay"));
+            mPriceList.add(p);
+        }
+        System.out.println(mManufacturerList.toString());
     }
 
     @Override
@@ -74,17 +116,13 @@ public class ToolsActivity extends AppCompatActivity  {
     }
 
     private void initImageBitmaps(){
-
         mImageUrls.add("https://i.redd.it/9lsqbiv0icz61.jpg");
-        mTools.add("Aircat impact wrench");
-
-       /* mImageUrls.add("https://i.redd.it/4qjsodgt5iy61.jpg");
-        mNames.add("John Deere s130 lawn mower");
-
+        mImageUrls.add("https://i.redd.it/4qjsodgt5iy61.jpg");
         mImageUrls.add("https://i.redd.it/qakqqh1qd8z61.jpg");
-        mNames.add("Polish machine");
 
-        mImageUrls.add("https://i.redd.it/jz58dpd593z61.jpg");
+        getAllToolsFromFirebase();
+
+        /*mImageUrls.add("https://i.redd.it/jz58dpd593z61.jpg");
         mNames.add("DeWalt flexvolt");
 
         mImageUrls.add("https://i.redd.it/kpoqzobe95z61.jpg");
@@ -112,7 +150,7 @@ public class ToolsActivity extends AppCompatActivity  {
         mNames.add("Bostitch");*/
 
         initRecyclerView();
-        initRecyclerView();
+
 
     }
 
@@ -120,7 +158,7 @@ public class ToolsActivity extends AppCompatActivity  {
     {
         Log.d(TAG,"initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recycleViewTools);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mTools,mImageUrls,this);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mManufacturerList,mModelList,mPriceList,mImageUrls,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
