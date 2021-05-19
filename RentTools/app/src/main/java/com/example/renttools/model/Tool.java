@@ -23,6 +23,13 @@ public class Tool {
         this.uId = uId;
     }
 
+    public Tool(String manufacturer, String model, String description, double pricePerDay) {
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.description = description;
+        this.pricePerDay = pricePerDay;
+    }
+
     public String getuId() {
         return uId;
     }

@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.renttools.R;
 import com.example.renttools.adapters.RecyclerViewAdapter;
-import com.example.renttools.model.Tool;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 
 public class ToolsActivity extends AppCompatActivity  {
     private static final String TAG = "ToolsActivity";
-    private final ArrayList<String> mNames = new ArrayList<>();
+    private final ArrayList<String> mTools = new ArrayList<>();
     private final ArrayList<String> mImageUrls = new ArrayList<>();
 
     private Toolbar toolbar;
@@ -45,7 +44,6 @@ public class ToolsActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_tools);
 
         mAuth = FirebaseAuth.getInstance();
-
         database = FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app");
         mDatabase = database.getReference();
 
@@ -74,25 +72,13 @@ public class ToolsActivity extends AppCompatActivity  {
         }
         return true;
     }
-    public void writeToolToDatabase(Tool tool) {
-        Toast.makeText(ToolsActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
-        mDatabase.child("Tools").child(mAuth.getCurrentUser().getUid()).setValue(tool);
-
-    }
-    public void onClickAddTool(View view) {
-        Tool tool = new Tool();
-        tool.setManufacturer("yamaha");
-        tool.setModel("uu700");
-        tool.setPricePerDay(700);
-        writeToolToDatabase(tool);
-    }
     private void initImageBitmaps(){
 
         mImageUrls.add("https://i.redd.it/9lsqbiv0icz61.jpg");
-        mNames.add("Aircat impact wrench");
+        mTools.add("Aircat impact wrench");
 
-        mImageUrls.add("https://i.redd.it/4qjsodgt5iy61.jpg");
+       /* mImageUrls.add("https://i.redd.it/4qjsodgt5iy61.jpg");
         mNames.add("John Deere s130 lawn mower");
 
         mImageUrls.add("https://i.redd.it/qakqqh1qd8z61.jpg");
@@ -123,7 +109,7 @@ public class ToolsActivity extends AppCompatActivity  {
         mNames.add("Bostitch");
 
         mImageUrls.add("https://preview.redd.it/4agyagv51ly61.jpg?width=4032&format=pjpg&auto=webp&s=e87763534b2fb3b03be13b2977aeaaa5a8a82ada");
-        mNames.add("Bostitch");
+        mNames.add("Bostitch");*/
 
         initRecyclerView();
         initRecyclerView();
@@ -134,12 +120,14 @@ public class ToolsActivity extends AppCompatActivity  {
     {
         Log.d(TAG,"initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recycleViewTools);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mNames,mImageUrls,this);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mTools,mImageUrls,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
 
-
+    public void onRentATool(View view) {
+        startActivity(new Intent(this, AddToolActivity.class));
+    }
 }

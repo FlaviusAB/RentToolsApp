@@ -1,3 +1,4 @@
+
 package com.example.renttools.views;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -79,30 +80,30 @@ public class SignUpUser extends AppCompatActivity {
             editTextPassword.requestFocus();
             return;
         }
-    progressBar.setVisibility(View.VISIBLE);
-    mAuth.createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener(task -> {
-                progressBar.setVisibility(View.GONE);
-                if(task.isSuccessful()){
-                    User user = new User(name,email);
-                    FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app")
-                            .getReference("Users")
-                            .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                            .setValue(user).addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful()) {
+        progressBar.setVisibility(View.VISIBLE);
+        mAuth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(task -> {
+                    progressBar.setVisibility(View.GONE);
+                    if(task.isSuccessful()){
+                        User user = new User(name,email);
+                        FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app")
+                                .getReference("Users")
+                                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                                .setValue(user).addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
 
-                                    Toast.makeText(SignUpUser.this, "You have been registered successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUpUser.this, "You have been registered successfully", Toast.LENGTH_SHORT).show();
 
-                                    SignUpUser.this.startActivity(new Intent(SignUpUser.this, LoginActivity.class));
-                                } else {
-                                    Toast.makeText(SignUpUser.this, "Failed to register! Tray again!", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }
-                else {
-                    Toast.makeText(SignUpUser.this,"Failed to register! Tray again!", Toast.LENGTH_SHORT).show();
-                }
-            });
+                                SignUpUser.this.startActivity(new Intent(SignUpUser.this, LoginActivity.class));
+                            } else {
+                                Toast.makeText(SignUpUser.this, "Failed to register! Tray again!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(SignUpUser.this,"Failed to register! Tray again!", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }

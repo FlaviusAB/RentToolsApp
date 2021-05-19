@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:text="@string/add_tool"
-        android:onClick="onClickAddTool"
+        android:onClick="onRentATool"
         android:textColor="@color/black"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

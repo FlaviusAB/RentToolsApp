@@ -23,5 +23,11 @@
     <string name="page_title_tools">Tools available</string>
     <string name="extended_fab_logout">Log out</string>
     <string name="myTools">my tools</string>
-    <string name="add_tool">Add tool</string>
+    <string name="add_tool">Rent a tool</string>
+    <string name="add_tool_string">Add tool</string>
+    <string name="manufacturer_label_string">Manufacturer</string>
+    <string name="model_label_string">Model</string>
+    <string name="description_label_string">Description</string>
+    <string name="price_label_string">Price/day</string>
+    <string name="post_tool_for_rent">Post tool for rent</string>
 </resources>
