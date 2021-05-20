@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.UUID;
 
-public class AddToolActivity extends AppCompatActivity {
+public class AddEditToolActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FirebaseDatabase database;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private String toolId;
 
     private TextInputLayout manufacturerInput, modelInput, descriptionInput, priceInput;
     private Button addToolButton;
@@ -51,31 +51,52 @@ public class AddToolActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app");
         mDatabase = database.getReference();
+
+        setValuesOnEdit();
+
     }
+
+    private void setValuesOnEdit() {
+        Bundle b = getIntent().getExtras();
+        boolean isEdit = b.getBoolean("isEdit");
+        if (isEdit) {
+            manufacturerInput.getEditText().setText(b.getString("manufacturer"));
+            modelInput.getEditText().setText(b.getString("model"));
+            descriptionInput.getEditText().setText(b.getString("description"));
+            priceInput.getEditText().setText(b.getString("price"));
+            toolId = b.getString("toolId");
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_app_bar_add_tool, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                Toast.makeText(AddToolActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddEditToolActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
         }
         return true;
     }
+
     public void writeToolToDatabase(Tool tool) {
-        Toast.makeText(AddToolActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-        String uuid = UUID.randomUUID().toString();
-        tool.setToolId(uuid.toString());
-        mDatabase.child("Tools").child(uuid).setValue(tool);
+        Toast.makeText(AddEditToolActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+        if (tool.getToolId() == null) {
+            String uuid = UUID.randomUUID().toString();
+            tool.setToolId(uuid);
+        }
+        mDatabase.child("Tools").child(tool.getToolId()).setValue(tool);
 
     }
-    public void onClickAddTool(View view) {
+
+    public void onClickSaveTool(View view) {
 
         String manuf = manufacturerInput.getEditText().getText().toString();
         String model = modelInput.getEditText().getText().toString();
@@ -104,9 +125,10 @@ public class AddToolActivity extends AppCompatActivity {
             priceInput.requestFocus();
             return;
         }
-        Tool tool = new Tool(manuf,model,descr,price);
+        Tool tool = new Tool(manuf, model, descr, price);
         tool.setUserId(mAuth.getCurrentUser().getUid());
+        tool.setToolId(toolId);
         writeToolToDatabase(tool);
-        startActivity(new Intent(AddToolActivity.this, ToolsActivity.class));
+        startActivity(new Intent(AddEditToolActivity.this, ToolsActivity.class));
     }
 }

@@ -15,7 +15,7 @@
             android:label="@string/title_activity_settings" />
         <activity android:name=".views.ToolInformationActivity" />
         <activity android:name=".views.MyToolsActivity" />
-        <activity android:name=".views.AddToolActivity" />
+        <activity android:name=".views.AddEditToolActivity" />
         <activity android:name=".views.ToolsActivity" />
         <activity android:name=".views.MainActivity" />
         <activity android:name=".views.SignUpUser" />

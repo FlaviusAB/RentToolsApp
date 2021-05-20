@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.example.renttools.R;
 import com.example.renttools.model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
@@ -22,7 +24,7 @@ public class SignUpUser extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private ProgressBar progressBar;
-    private EditText editTextName, editTextEmail, editTextPassword;
+    private EditText editTextName, editTextEmail, editTextPassword, editTextPhone, editTextLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +33,16 @@ public class SignUpUser extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         editTextName = findViewById(R.id.editTextPersonName);
-        editTextEmail = findViewById(R.id.editTextEmailAddress);
         editTextPassword = findViewById(R.id.editTextPassword);
+        editTextEmail = findViewById(R.id.editTextEmailAddress);
+        editTextPhone = findViewById(R.id.phone);
+        editTextLocation = findViewById(R.id.location);
         progressBar = findViewById(R.id.progressBar);
 
     }
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         startActivity(new Intent(SignUpUser.this, LoginActivity.class));
     }
 
@@ -53,6 +57,8 @@ public class SignUpUser extends AppCompatActivity {
         String email = editTextEmail.getText().toString().trim();
         String name = editTextName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        String phone = editTextPhone.getText().toString().trim();
+        String location = editTextLocation.getText().toString().trim();
 
         if (name.isEmpty()) {
             editTextName.setError("Name is required!");
@@ -75,17 +81,17 @@ public class SignUpUser extends AppCompatActivity {
             editTextEmail.requestFocus();
             return;
         }
-        if(password.length()<6){
+        if (password.length() < 6) {
             editTextPassword.setError("Min 6 characters for password");
             editTextPassword.requestFocus();
             return;
         }
-        progressBar.setVisibility(View.VISIBLE);
-        mAuth.createUserWithEmailAndPassword(email,password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     progressBar.setVisibility(View.GONE);
-                    if(task.isSuccessful()){
-                        User user = new User(name,email);
+                    if (task.isSuccessful()) {
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        User user = new User(uid, email, name, phone, location);
                         FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app")
                                 .getReference("Users")
                                 .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
@@ -99,9 +105,8 @@ public class SignUpUser extends AppCompatActivity {
                                 Toast.makeText(SignUpUser.this, "Failed to register! Tray again!", Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
-                    else {
-                        Toast.makeText(SignUpUser.this,"Failed to register! Tray again!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignUpUser.this, "Failed to register! Tray again!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

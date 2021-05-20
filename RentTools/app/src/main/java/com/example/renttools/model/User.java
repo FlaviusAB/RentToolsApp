@@ -1,33 +1,28 @@
 package com.example.renttools.model;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import java.util.ArrayList;
-
 public class User {
 
     private String uid;
     private String email;
     private String name;
     private String phoneNumber;
-    private String city;
+    private String location;
 
 
     public User(){}
 
 
-    public User(String email, String name) {
+    public User(String email, String name){
         this.email = email;
         this.name = name;
     }
 
-    public User(String uId, String email, String name, String phoneNumber, String city) {
+    public User(String uId, String email, String name, String phoneNumber, String location) {
         this.uid = uId;
         this.email = email;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.city = city;
+        this.location = location;
 
     }
 
@@ -47,12 +42,12 @@ public class User {
         return phoneNumber;
     }
 
-    public String getCity() {
-        return city;
+    public String getLocation() {
+        return location;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
 

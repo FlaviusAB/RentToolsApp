@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -21,6 +22,7 @@ import com.example.renttools.R;
 import com.example.renttools.adapters.RecyclerViewAdapter;
 
 import com.example.renttools.model.Tool;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,18 +34,22 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ToolsActivity extends AppCompatActivity  {
+public class ToolsActivity extends AppCompatActivity {
     private static final String TAG = "ToolsActivity";
 
 
-    private  ArrayList<Tool> mToolList = new ArrayList<>();
+    private ArrayList<Tool> mToolList = new ArrayList<>();
+    private ArrayList<Tool> mToolListOrig = new ArrayList<>();
+    private ArrayList<Tool> mToolListFiltered = new ArrayList<>();
 
     private final ArrayList<String> mImageUrls = new ArrayList<>();
     private Toolbar toolbar;
     private FirebaseDatabase database;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-
+    private String searchParam = "";
+    private TextInputLayout searchField;
+    private Button searchButton;
 
 
     @Override
@@ -55,6 +61,8 @@ public class ToolsActivity extends AppCompatActivity  {
         database = FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app");
         mDatabase = database.getReference();
 
+        searchField = findViewById(R.id.searchInput);
+        searchButton = findViewById(R.id.searchButton);
 
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -69,8 +77,7 @@ public class ToolsActivity extends AppCompatActivity  {
         return true;
     }
 
-    public void getAllToolsFromFirebase()
-    {
+    public void getAllToolsFromFirebase() {
 
         DatabaseReference ref = database.getReference().child("Tools");
         ref.addValueEventListener(
@@ -78,7 +85,8 @@ public class ToolsActivity extends AppCompatActivity  {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        GenericTypeIndicator<Map<String, Tool>> t = new GenericTypeIndicator<Map<String, Tool>>() {};
+                        GenericTypeIndicator<Map<String, Tool>> t = new GenericTypeIndicator<Map<String, Tool>>() {
+                        };
                         collectTools(dataSnapshot.getValue(t));
                     }
 
@@ -91,8 +99,10 @@ public class ToolsActivity extends AppCompatActivity  {
 
     private void collectTools(Map<String, Tool> tools) {
         mToolList.clear();
-        for (Map.Entry<String, Tool> entry : tools.entrySet()){
-            mToolList.add(entry.getValue());
+        for (Map.Entry<String, Tool> entry : tools.entrySet()) {
+            Tool tool = entry.getValue();
+            mToolList.add(tool);
+            mToolListOrig.add(tool);
         }
 
         initRecyclerView();
@@ -100,7 +110,7 @@ public class ToolsActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(ToolsActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
@@ -119,23 +129,38 @@ public class ToolsActivity extends AppCompatActivity  {
         return true;
     }
 
-    private void initImageBitmaps(){
+    private void initImageBitmaps() {
         mImageUrls.add("https://i.redd.it/9lsqbiv0icz61.jpg");
         getAllToolsFromFirebase();
         initRecyclerView();
 
     }
 
-    private void initRecyclerView()
-    {
-        Log.d(TAG,"initRecyclerView: init recyclerview.");
+    private void initRecyclerView() {
+        Log.d(TAG, "initRecyclerView: init recyclerview.");
         RecyclerView recyclerView = findViewById(R.id.recycleViewTools);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mToolList,this);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(mToolList, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
 
-
+    public void onClickSearch(View view) {
+        String searcText = searchField.getEditText().getText().toString();
+        if (!searcText.equals("")) {
+            mToolListFiltered.clear();
+            for (Tool entry : mToolListOrig) {
+                if (entry.getManufacturer().contains(searcText)) {
+                    mToolListFiltered.add(entry);
+                }
+            }
+            mToolList = mToolListFiltered;
+        }
+        else
+        {
+            mToolList = mToolListOrig;
+        }
+        initRecyclerView();
+    }
 }

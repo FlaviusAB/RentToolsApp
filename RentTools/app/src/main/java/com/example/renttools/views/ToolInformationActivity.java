@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -27,7 +26,7 @@ public class ToolInformationActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private FirebaseAuth mAuth;
 
-    private String uId;
+    private String toolId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +42,7 @@ public class ToolInformationActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.buttonDeleteTool);
 
 
+
         toolbar = findViewById(R.id.main_toolbar_my_tools);
         setSupportActionBar(toolbar);
 
@@ -54,7 +54,7 @@ public class ToolInformationActivity extends AppCompatActivity {
         String description = b.getString("description");
         Double price = b.getDouble("price");
         String activity = b.getString("activity");
-        uId = b.getString("toolId");
+        toolId = b.getString("toolId");
 
         if(activity.equals("ToolsActivity"))
         {
@@ -65,7 +65,7 @@ public class ToolInformationActivity extends AppCompatActivity {
         manufText.setText(manufacturer);
         modelText.setText(model);
         descrText.setText(description);
-        priceText.setText(price.toString()+" kr/day");
+        priceText.setText(price.toString());
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app");
@@ -78,11 +78,19 @@ public class ToolInformationActivity extends AppCompatActivity {
     }
 
     public void onClickEdit(View view) {
+        Intent intent = new Intent(this, AddEditToolActivity.class);
+        intent.putExtra("manufacturer",manufText.getText());
+        intent.putExtra("model",modelText.getText());
+        intent.putExtra("description",descrText.getText());
+        intent.putExtra("price",priceText.getText());
+        intent.putExtra("toolId",toolId);
+        intent.putExtra("isEdit",true);
 
+        this.startActivity(intent);
     }
 
     public void onClickDelete(View view) {
-        database.getReference().child("Tools").child(uId).removeValue();
+        database.getReference().child("Tools").child(toolId).removeValue();
         Toast.makeText(this,"Succesfuly removed",Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, ToolsActivity.class));
     }
