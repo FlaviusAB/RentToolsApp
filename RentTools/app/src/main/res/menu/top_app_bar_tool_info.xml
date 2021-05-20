@@ -8,6 +8,9 @@
         android:contentDescription="@string/content_description_more"
         app:showAsAction="never" />
     <item
+        android:id="@+id/item_settings"
+        android:title="@string/settings"/>
+    <item
         android:id="@+id/logout"
         android:contentDescription="@string/extended_fab_logout"
         android:title="@string/extended_fab_logout"

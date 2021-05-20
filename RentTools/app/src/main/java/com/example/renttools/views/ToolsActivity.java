@@ -61,7 +61,6 @@ public class ToolsActivity extends AppCompatActivity  {
 
         initImageBitmaps();
 
-
     }
 
     @Override
@@ -109,6 +108,10 @@ public class ToolsActivity extends AppCompatActivity  {
                 return true;
             case R.id.myTools:
                 startActivity(new Intent(this, MyToolsActivity.class));
+            case R.id.item_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+            case R.id.profile:
+                startActivity(new Intent(this, UserProfileActivity.class));
         }
         return true;
     }
