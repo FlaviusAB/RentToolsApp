@@ -1,5 +1,6 @@
 package com.example.renttools.views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -33,9 +35,11 @@ public class AddToolActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tool);
-        toolbar = findViewById(R.id.main_toolbar);
+
+        toolbar = findViewById(R.id.main_toolbar_add_tool);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.add_tool_string);
+
         addToolButton = findViewById(R.id.buttonRentTool);
 
         manufacturerInput = findViewById(R.id.manufacturerTextField);
@@ -50,7 +54,18 @@ public class AddToolActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_app_bar, menu);
+        getMenuInflater().inflate(R.menu.top_app_bar_add_tool, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(AddToolActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+        }
         return true;
     }
     public void writeToolToDatabase(Tool tool) {

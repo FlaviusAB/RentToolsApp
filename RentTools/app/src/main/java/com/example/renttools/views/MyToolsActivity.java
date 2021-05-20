@@ -50,7 +50,6 @@ public class MyToolsActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app");
         mDatabase = database.getReference();
 
-
         toolbar = findViewById(R.id.main_toolbar_my_tools);
         setSupportActionBar(toolbar);
 
