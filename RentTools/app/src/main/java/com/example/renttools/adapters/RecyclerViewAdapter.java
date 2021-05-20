@@ -67,6 +67,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 intent.putExtra("model",mToolList.get(position).getModel());
                 intent.putExtra("description",mToolList.get(position).getDescription());
                 intent.putExtra("price",mToolList.get(position).getPricePerDay());
+                intent.putExtra("activity",mContext.getClass().getSimpleName());
+                intent.putExtra("userId",mToolList.get(position).getUserId());
 
                 mContext.startActivity(intent);
 

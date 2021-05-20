@@ -6,6 +6,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class Tool {
 
 
+    private String toolId;
     private String manufacturer;
     private String model;
     private String description;
@@ -15,7 +16,8 @@ public class Tool {
     public Tool() {
     }
 
-    public Tool(String manufacturer, String model, String description, double pricePerDay, String userId) {
+    public Tool(String toolId,String manufacturer, String model, String description, double pricePerDay, String userId) {
+        this.toolId = toolId;
         this.manufacturer = manufacturer;
         this.model = model;
         this.description = description;
@@ -28,6 +30,10 @@ public class Tool {
         this.model = model;
         this.description = description;
         this.pricePerDay = pricePerDay;
+    }
+
+    public String getToolId() {
+        return toolId;
     }
 
     public String getUserId() {

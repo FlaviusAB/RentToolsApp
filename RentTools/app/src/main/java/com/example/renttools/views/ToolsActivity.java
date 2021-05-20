@@ -108,10 +108,13 @@ public class ToolsActivity extends AppCompatActivity  {
                 return true;
             case R.id.myTools:
                 startActivity(new Intent(this, MyToolsActivity.class));
+                return true;
             case R.id.item_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                return true;
             case R.id.profile:
                 startActivity(new Intent(this, UserProfileActivity.class));
+                return true;
         }
         return true;
     }
