@@ -32,6 +32,18 @@ public class Tool {
         this.pricePerDay = pricePerDay;
     }
 
+    public Tool(String toolId, String manufacturer, String model, String description, double pricePerDay) {
+        this.toolId = toolId;
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.description = description;
+        this.pricePerDay = pricePerDay;
+    }
+
+    public void setToolId(String toolId) {
+        this.toolId = toolId;
+    }
+
     public String getToolId() {
         return toolId;
     }

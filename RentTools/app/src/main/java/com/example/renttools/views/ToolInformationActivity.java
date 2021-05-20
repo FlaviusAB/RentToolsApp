@@ -3,6 +3,7 @@ package com.example.renttools.views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
@@ -53,7 +54,7 @@ public class ToolInformationActivity extends AppCompatActivity {
         String description = b.getString("description");
         Double price = b.getDouble("price");
         String activity = b.getString("activity");
-        uId = b.getString("userId");
+        uId = b.getString("toolId");
 
         if(activity.equals("ToolsActivity"))
         {
@@ -83,5 +84,6 @@ public class ToolInformationActivity extends AppCompatActivity {
     public void onClickDelete(View view) {
         database.getReference().child("Tools").child(uId).removeValue();
         Toast.makeText(this,"Succesfuly removed",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, ToolsActivity.class));
     }
 }

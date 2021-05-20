@@ -71,6 +71,7 @@ public class AddToolActivity extends AppCompatActivity {
     public void writeToolToDatabase(Tool tool) {
         Toast.makeText(AddToolActivity.this, "Saved", Toast.LENGTH_SHORT).show();
         String uuid = UUID.randomUUID().toString();
+        tool.setToolId(uuid.toString());
         mDatabase.child("Tools").child(uuid).setValue(tool);
 
     }
