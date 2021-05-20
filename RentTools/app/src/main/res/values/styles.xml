@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        ...
+        <item name="colorSecondary">@color/orange</item>
+        <item name="colorOnSecondary">@color/orange1</item>
+        <item name="colorOnSurface">@color/orange1</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+</resources>

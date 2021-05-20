@@ -8,13 +8,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="374dp"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageTool"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/imageTool"
             android:text="@string/manufacturer_label_string"
             android:textSize="17sp"
@@ -36,22 +36,45 @@
             android:id="@+id/toolModel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:text="@string/model_label_string"
             android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@+id/imageTool"
+            app:layout_constraintStart_toEndOf="@+id/labelModel"
             app:layout_constraintTop_toBottomOf="@+id/toolManufacturer" />
 
         <TextView
             android:id="@+id/toolPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:text="@string/price_label_string"
             android:textSize="17sp"
             app:layout_constraintStart_toEndOf="@+id/imageTool"
+            app:layout_constraintTop_toBottomOf="@+id/labelModel" />
+
+        <TextView
+            android:id="@+id/labelKrDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/kr_day"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/toolPrice"
+            app:layout_constraintTop_toBottomOf="@+id/toolModel" />
+
+        <TextView
+            android:id="@+id/labelModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/model_label_string"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@+id/imageTool"
             app:layout_constraintTop_toBottomOf="@+id/toolManufacturer" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.ToolsActivity">
+    tools:context=".views.MyToolsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleViewTools"
+        android:id="@+id/recycleViewMyTools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,13 +20,26 @@
         >
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/main_toolbar"
+            android:id="@+id/main_toolbar_my_tools"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/top_app_bar"
-            app:title="@string/page_title_tools" />
+            app:menu="@menu/top_app_bar_my_tools"
+            app:title="@string/myTools" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/buttonAddTool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        app:icon="@drawable/ic_baseline_add_24"
+        android:text="@string/add_tool"
+        android:onClick="onRentATool"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/orange"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

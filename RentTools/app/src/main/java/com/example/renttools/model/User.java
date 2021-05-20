@@ -11,6 +11,7 @@ public class User {
     private String email;
     private String name;
     private String phoneNumber;
+    private String city;
 
 
     public User(){}
@@ -21,11 +22,13 @@ public class User {
         this.name = name;
     }
 
-    public User(String uId, String email, String name, String phoneNumber) {
+    public User(String uId, String email, String name, String phoneNumber, String city) {
         this.uid = uId;
         this.email = email;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.city = city;
+
     }
 
     public String getUId() {
@@ -42,6 +45,14 @@ public class User {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }
 

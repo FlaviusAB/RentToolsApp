@@ -1,9 +1,7 @@
 package com.example.renttools.views;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,10 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-
 import com.example.renttools.R;
 import com.example.renttools.adapters.RecyclerViewAdapter;
-
 import com.example.renttools.model.Tool;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,8 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ToolsActivity extends AppCompatActivity  {
-    private static final String TAG = "ToolsActivity";
+public class MyToolsActivity extends AppCompatActivity {
+    private static final String TAG = "MyToolsActivity";
 
 
     private  ArrayList<Tool> mToolList = new ArrayList<>();
@@ -45,32 +41,30 @@ public class ToolsActivity extends AppCompatActivity  {
     private DatabaseReference mDatabase;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tools);
+        setContentView(R.layout.activity_my_tools);
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance("https://renttools-b4395-default-rtdb.europe-west1.firebasedatabase.app");
         mDatabase = database.getReference();
 
 
-        toolbar = findViewById(R.id.main_toolbar);
+        toolbar = findViewById(R.id.main_toolbar_my_tools);
         setSupportActionBar(toolbar);
 
         initImageBitmaps();
-
-
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_app_bar, menu);
+        getMenuInflater().inflate(R.menu.top_app_bar_my_tools, menu);
         return true;
     }
+    public void deleteToolFromFirebase(){
 
-    public void getAllToolsFromFirebase()
+    }
+    public void getMyToolsFromFirebase()
     {
 
         DatabaseReference ref = database.getReference().child("Tools");
@@ -89,47 +83,45 @@ public class ToolsActivity extends AppCompatActivity  {
                     }
                 });
     }
-
     private void collectTools(Map<String, Tool> tools) {
         mToolList.clear();
         for (Map.Entry<String, Tool> entry : tools.entrySet()){
-            mToolList.add(entry.getValue());
+
+            if(entry.getValue().getUserId().equals(mAuth.getCurrentUser().getUid())) {
+                mToolList.add(entry.getValue());
+            }
         }
 
         initRecyclerView();
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                Toast.makeText(ToolsActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyToolsActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
-            case R.id.myTools:
-                startActivity(new Intent(this, MyToolsActivity.class));
         }
         return true;
     }
-
     private void initImageBitmaps(){
         mImageUrls.add("https://i.redd.it/9lsqbiv0icz61.jpg");
-        getAllToolsFromFirebase();
+        getMyToolsFromFirebase();
         initRecyclerView();
 
     }
-
     private void initRecyclerView()
     {
         Log.d(TAG,"initRecyclerView: init recyclerview.");
-        RecyclerView recyclerView = findViewById(R.id.recycleViewTools);
+        RecyclerView recyclerView = findViewById(R.id.recycleViewMyTools);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(mToolList,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
-
-
+    public void onRentATool(View view) {
+        startActivity(new Intent(this, AddToolActivity.class));
+    }
 }

@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/search"
-        android:icon="@drawable/ic_baseline_search_24"
-        android:title="@string/search"
-        android:contentDescription="@string/content_description_search"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/myTools"
-        android:title="@string/myTools"
-        android:contentDescription="@string/content_description_search"
-        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/profile"
@@ -23,5 +12,5 @@
         android:contentDescription="@string/extended_fab_logout"
         android:title="@string/extended_fab_logout"
         android:visible="true"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>

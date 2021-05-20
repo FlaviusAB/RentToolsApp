@@ -1,6 +1,8 @@
 package com.example.renttools.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.renttools.R;
 import com.example.renttools.model.Tool;
+import com.example.renttools.views.ToolInformationActivity;
+import com.example.renttools.views.ToolsActivity;
 
 
 import org.w3c.dom.Text;
@@ -47,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
-        Glide.with(mContext).asBitmap().load("https://i.redd.it/jz58dpd593z61.jpg").into(holder.image);
+        Glide.with(mContext).asBitmap().load("https://sainfoinc.com/wp-content/uploads/2018/02/image-not-available.jpg").into(holder.image);
 
         holder.manufacturerText.setText(mToolList.get(position).getManufacturer());
         holder.modelText.setText(mToolList.get(position).getModel());
@@ -57,10 +61,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked on" + mToolList.get(position));
-                Toast.makeText(mContext, mToolList.get(position).getManufacturer(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(mContext, ToolInformationActivity.class);
+                intent.putExtra("manufacturer",mToolList.get(position).getManufacturer());
+                intent.putExtra("model",mToolList.get(position).getModel());
+                intent.putExtra("description",mToolList.get(position).getDescription());
+                intent.putExtra("price",mToolList.get(position).getPricePerDay());
+
+                mContext.startActivity(intent);
+
             }
         });
 
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 
     @Override
