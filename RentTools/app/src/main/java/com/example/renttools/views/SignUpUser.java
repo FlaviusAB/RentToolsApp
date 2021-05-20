@@ -39,6 +39,7 @@ public class SignUpUser extends AppCompatActivity {
         editTextLocation = findViewById(R.id.location);
         progressBar = findViewById(R.id.progressBar);
 
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -88,7 +89,7 @@ public class SignUpUser extends AppCompatActivity {
         }
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.VISIBLE);
                     if (task.isSuccessful()) {
                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         User user = new User(uid, email, name, phone, location);
@@ -99,7 +100,7 @@ public class SignUpUser extends AppCompatActivity {
                             if (task1.isSuccessful()) {
 
                                 Toast.makeText(SignUpUser.this, "You have been registered successfully", Toast.LENGTH_SHORT).show();
-
+                                    progressBar.setVisibility(View.GONE);
                                 SignUpUser.this.startActivity(new Intent(SignUpUser.this, LoginActivity.class));
                             } else {
                                 Toast.makeText(SignUpUser.this, "Failed to register! Tray again!", Toast.LENGTH_SHORT).show();
